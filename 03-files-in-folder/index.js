@@ -6,9 +6,10 @@ async function getFiles(dir, file) {
     const files = await readdir(path.join(dir, file), {
       withFileTypes: true,
     });
+
     for (const file of files) {
       if (file.isDirectory()) {
-        return;
+        continue;
       }
       const filePath = path.join(file.parentPath, file.name);
       const fileStat = await stat(filePath);
@@ -16,6 +17,7 @@ async function getFiles(dir, file) {
       const fileName = path.basename(filePath, fileExtension);
       console.log(`${fileName} - ${fileExtension} - ${fileStat.size}b`);
     }
+
   } catch (err) {
     console.log('Something went wrong', err);
   }
